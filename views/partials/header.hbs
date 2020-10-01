@@ -1,0 +1,18 @@
+<nav>
+    <div class="row bg_header">
+        <div><a href="/" class="menu col-lg-2 text-center">Menu</a></div>
+        <div><a href="/shopping-cart"  class="cart col-lg-3 text-center"</a>Cart</div>
+        {{#if log}}
+         <div> <a href="#" class=" col-lg-2 text-right">User inform</a></div>
+        <div ><a href="#"  class=" col-lg-2 text-left">Logout</a></div>
+        <h5 class="col-lg-3 text-center">{{message}}</h5>
+        {{else}}
+        <div> <a href="/signin" class="signin col-lg-3 text-right">Sign in</a></div>
+        <div ><a href="/signup"  class="signup col-lg-3 text-right">Sign up</a></div>
+        {{/if}}
+        {{#if message}}
+        
+         {{/if}}
+
+    </div>
+</nav>

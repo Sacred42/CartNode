@@ -1,0 +1,21 @@
+<h4>hello</h4>
+
+<div class="row">
+
+ {{#each products}}
+ <div class="col-lg-3 ">
+<div class=""><img class="imgSize" src="{{image}}" alt="#"></div>
+ <div>{{title}}</div>
+ <div>${{cost}}</div>
+{{#if qty}}
+<div>{{qty}}</div>
+{{else}}
+<div>в наличии нет товара!</div>
+ {{/if}}
+ <div><a href="/addToCart/{{_id}}/{{qty}}/{{title}}">Bay</a></div>
+ </div>
+
+ {{/each}}
+
+</div>
+ 

@@ -1,0 +1,22 @@
+<div class="form-wrap">
+ 
+    <h1>Регистрация</h1>
+  {{#if errMesage}}
+  {{#each errMesage}}
+  <h4>{{this}}</h4>
+  {{/each}}
+  {{/if}}
+  <form method="post" action="/signin">
+    <div>
+      <label for="name">E-mail</label>
+      <input type="text" name="email" required>
+    </div>
+    
+    <div>
+      <label for="email">password</label>
+      <input type="password" name="password" required>
+    </div>
+    
+    <button type="submit">Войти</button> 
+  </form> 
+</div>

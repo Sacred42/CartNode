@@ -1,0 +1,21 @@
+<div class="form-wrap">
+  <div class="profile"><img src="https://html5book.ru/wp-content/uploads/2016/10/profile-image.png">
+    <h1>Регистрация</h1>
+    {{#if mesError}}
+    <h4>{{mesError}}</h4>
+    {{/if}}
+  </div>
+  <form method="post" action="/signup">
+    <div>
+      <label for="name">E-mail</label>
+      <input type="text" name="email" >
+    </div>
+    
+    <div>
+      <label for="email">password</label>
+      <input type="password" name="password" >
+    </div>
+    
+    <button type="submit">Зарегестрировать</button> 
+  </form> 
+</div>

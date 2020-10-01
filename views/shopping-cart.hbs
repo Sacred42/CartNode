@@ -1,0 +1,36 @@
+{{#if products}}
+<div class="row">
+  <div class="col-lg-6 col-lg-offset-3">
+      <div class="col-lg-4">Название</div>
+      <div class="col-lg-4">Количество</div>
+      <div class="col-lg-4">Цена</div>
+  </div>
+</div>
+
+
+<div class="row shopping-cart">
+    <div class="col-lg-6 col-lg-offset-3">
+    <ul class="square ">
+        
+        {{# each products }}
+        <li class="row"> 
+            {{!-- отчет идет от 12 колонок несмотря на то что выделенно 6 --}}
+           <span class="col-lg-4" >{{product}}</span>
+           <strong class="col-lg-4 " >{{quantity}}</strong>
+           <span class="col-lg-4 ">{{cost}}</span>
+        </li>
+     
+    {{/each}}
+    </ul>
+    <form action="/pay" method="post">
+    <input name="totalqty" value="{{Totalprice}}"></input>
+    <button type="submit" class="btn btn-success">Buy now</button>
+    </form>
+    
+    </div>
+   
+    {{else}}
+    <h3>No products!</h3>
+    
+</div>
+{{/if}}
