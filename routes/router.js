@@ -2,17 +2,19 @@ const express = require('express');
 const passport = require('passport');
 const router = express.Router();
 const productsHema = require('../models/product');
-const Cart = require('../config/cart')
+const Cart = require('../config/cart');
+const order = require('../models/storeProducts');
 const changeQty = require('../config/changeQty');
+const trans = require('../transformation/transform');
+const { request } = require('express');
+
 
 
 
 router.get('/' , async (req, res, next)=>{
     var products = await productsHema.find({}).lean();
-    // let id = req.query.id;
-    // let message = req.session.email;
-    // console.log(message);
-    res.render('mainPage' , { message : req.session.email , products : products});
+    var messageNotAuth = req.flash('error');
+    res.render('mainPage' , { message : req.session.email , messageNotAuth: messageNotAuth,  products : products});
 });
 
 router.get('/addToCart/:id/:qty/:title' , (req, res, next)=>{
@@ -21,6 +23,7 @@ router.get('/addToCart/:id/:qty/:title' , (req, res, next)=>{
     var nome = req.params.title;
     var nothing = 0;
     var isChanged = changeQty(ProductQty);
+    
     if(isChanged >= 0){
         productsHema.findByIdAndUpdate (Productid , {title : nome , qty : isChanged} , function(err, product){
             if (err){
@@ -43,15 +46,25 @@ router.get('/addToCart/:id/:qty/:title' , (req, res, next)=>{
     //    return res.redirect('/' , {errors : errors});
     // }
       
+});
+
+router.get('/store-order' , isLogin , async (req, res)=>{
+    var orders = await order.find({});
+    console.log(orders[0].price);
+     var priceArr = orders[0].price;
+    
+     res.render('StoreOrder', {priceArr : priceArr, message : req.session.email})
 })
 
-router.get('/shopping-cart' , (req, res , next)=>{
+router.get('/shopping-cart' , isLogin, (req, res , next)=>{
     if(!req.session.cart){
-      return  res.render('shopping-cart');
+      return  res.render('shopping-cart', {message : req.session.email});
     }
+
+     
     var cart = new Cart(req.session.cart);
     var products = cart.generateArr();
-    res.render('shopping-cart' , {products : products , Totalprice : cart.Totalprice});
+    res.render('shopping-cart' , {products : products , message : req.session.email,  Totalprice : cart.Totalprice});
 })
 
 router.get('/signup' , (req,res,next)=>{
@@ -60,8 +73,9 @@ router.get('/signup' , (req,res,next)=>{
     res.render('auth/register' , {message : req.session.email , mesError : mesError});
 });
 
-router.get('/signin' , (req,res,next)=>{
+router.get('/signin' , isnotLogin, (req,res,next)=>{
     var errMesage = req.flash('error');
+    
     res.render('auth/getIn' , {errMesage : errMesage});
 });
 
@@ -90,5 +104,20 @@ router.post('/signin' , passport.authenticate('local.signin' , {
     // req.session[id] = message;
     // res.redirect(`/?id=${id}`);
 });
+
+function isLogin(req, res, next){
+ if(req.isAuthenticated()){
+    return next()
+ }
+    req.flash('error', 'You need auth' );
+    res.redirect('/');
+}
+
+function isnotLogin(req, res, next){
+    if(!req.isAuthenticated()){
+        return next()
+     }
+        res.redirect('/');
+}
 
 module.exports = router;
