@@ -15,15 +15,17 @@
         {{# each products }}
         <li class="row"> 
             {{!-- отчет идет от 12 колонок несмотря на то что выделенно 6 --}}
-           <span class="col-lg-4" >{{product}}</span>
-           <strong class="col-lg-4 " >{{quantity}}</strong>
-           <span class="col-lg-4 ">{{cost}}</span>
+           <span class="col-lg-3 product_pm" >{{product}}</span>
+           <strong class="col-lg-3 quantity_pm" >{{quantity}}</strong>
+           <span class="col-lg-3 cost_pm">{{cost}}</span>
+           <button class="col-lg-1 button_plus">+</button>
+           <span class="col-lg-1">-</span>
         </li>
      
     {{/each}}
     </ul>
-    <form action="/pay" method="post">
-    <input name="totalqty" value="{{Totalprice}}"></input>
+    <form class="forma" action="/pay" method="post">
+    <input class="totalqty_pm" name="totalqty" value="{{Totalprice}}"></input>
     <button type="submit" class="btn btn-success">Buy now</button>
     </form>
     

@@ -49,9 +49,14 @@ router.get('/addToCart/:id/:qty/:title' , (req, res, next)=>{
 });
 
 router.get('/store-order' , isLogin , async (req, res)=>{
-    var orders = await order.find({});
-    console.log(orders[0].price);
-     var priceArr = orders[0].price;
+    var orders = await order.findOne({'user' : req.session.passport.user } , function(err, result){
+        if(err){
+            err
+        }
+    });
+    console.log(orders);
+    //console.log(typeof req.session.passport.user);
+     var priceArr = orders.price;
     
      res.render('StoreOrder', {priceArr : priceArr, message : req.session.email})
 })
